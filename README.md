@@ -1,2 +1,2 @@
 # InventoryAPI
-API made in C# to talk to a Entity Framework database
+API made in C# to talk to an Entity Framework database.
