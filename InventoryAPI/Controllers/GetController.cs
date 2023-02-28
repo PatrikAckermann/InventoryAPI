@@ -3,6 +3,7 @@ using InventoryAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace InventoryAPI.Controllers
 {
@@ -96,7 +97,7 @@ namespace InventoryAPI.Controllers
             return location;
         }
 
-        // Request by parameters - Returns a list with locations whose parameters match with the request.
+        // Request by parameters - Returns a list with locations whose attributes match with the request.
         [HttpGet("location/list/")] //{LocationName}
         public async Task<ActionResult<IEnumerable<Locations>>> GetLocationName([FromQuery] string? name="")
         {
@@ -116,7 +117,7 @@ namespace InventoryAPI.Controllers
         [HttpGet("object/")] //{id}
         public async Task<ActionResult<Objects>> GetObjectId([FromQuery] int id)
         {
-            var obj = await _context.Objects.FindAsync(id);
+            var obj = await _context.Objects.Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == id);
             if (obj == null)
             {
                 return NotFound();
@@ -137,6 +138,7 @@ namespace InventoryAPI.Controllers
             {
                 query = query.Where(x => x.ObjectName.Contains(Name));
             }
+            query = query.Include(x => x.Category);
             List<Objects> Objects = await query.ToListAsync();
 
             if (Objects == null)
@@ -154,11 +156,12 @@ namespace InventoryAPI.Controllers
         [HttpGet("item/")] //{itemid}
         public async Task<ActionResult<Inventory>> GetItemId([FromQuery] int id)
         {
-            var obj = await _context.Inventory.FindAsync(id);
+            var obj = await _context.Inventory.Include(x => x.ObjectType).Include(x => x.Location).Include(x => x.User).Include(x => x.ObjectType.Category).FirstOrDefaultAsync(x => x.Id == id);
             if (obj == null)
             {
                 return NotFound();
             }
+
             return obj;
         }
 
@@ -192,6 +195,7 @@ namespace InventoryAPI.Controllers
                 query = query.Where(x => x.Amount <= maxAmount);
             }
 
+            query = query.Include(x => x.ObjectType).Include(x => x.Location).Include(x => x.User).Include(x => x.ObjectType.Category);
             List<Inventory> Items = await query.ToListAsync();
 
             if (Items == null)
