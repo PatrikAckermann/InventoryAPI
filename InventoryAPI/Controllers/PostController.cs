@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InventoryAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/post/")]
     [ApiController]
     public class PostController : ControllerBase
     {
@@ -17,13 +17,22 @@ namespace InventoryAPI.Controllers
             _context = context;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Locations>> a(Locations locations)
+        [HttpPost("location")]
+        public async Task<ActionResult<Locations>> PostLocation(Locations location)
         {
-            _context.Locations.Add(locations);
+            _context.Locations.Add(location);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetLocations", new { id = locations.Id }, locations);
+            return CreatedAtAction("PostLocation", new { id = location.Id }, location);
+        }
+
+        [HttpPost("item")]
+        public async Task<ActionResult<Inventory>> PostItem(Inventory inventory)
+        {
+            _context.Inventory.Add(inventory);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("PostItem", new {id = inventory.Id}, inventory);
         }
     }
 }

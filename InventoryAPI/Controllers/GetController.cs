@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InventoryAPI.Controllers
 {
-    [Route("api/")]
+    [Route("api/get/")]
     [ApiController]
     public class GetController : ControllerBase
     {
@@ -26,7 +26,7 @@ namespace InventoryAPI.Controllers
         /*****************************/
 
         // Request by ID - Returns 1 user.
-        [HttpGet("getuser/")] //{id}
+        [HttpGet("user/")] //{id}
         public async Task<ActionResult<Users>> GetUserId([FromQuery] int id)
         {
             var user = await _context.Users.FindAsync(id);
@@ -40,8 +40,8 @@ namespace InventoryAPI.Controllers
         }
 
         // Request by parameters - Returns a list with users whose attributes match with the request.
-        [HttpGet("getuser/list/")] //{name}
-        public async Task<ActionResult<IEnumerable<Users>>> GetUserName([FromQuery] string name)
+        [HttpGet("user/list/")] //{name}
+        public async Task<ActionResult<IEnumerable<Users>>> GetUserName([FromQuery] string? name="")
         {
             List<Users> users = await _context.Users.Where(x => x.Name.Contains(name)).ToListAsync();
             if (users == null) 
@@ -57,7 +57,7 @@ namespace InventoryAPI.Controllers
         /*****************************/
 
         // Request by ID - Returns 1 category.
-        [HttpGet("getcategory/")] //{id}
+        [HttpGet("category/")] //{id}
         public async Task<ActionResult<Categories>> GetCategoryId([FromQuery] int id)
         {
             var category = await _context.Categories.FindAsync(id);
@@ -69,8 +69,8 @@ namespace InventoryAPI.Controllers
         }
 
         // Request by parameters - Returns a list with categories whose attributes match with the request.
-        [HttpGet("getcategory/list/")] //{name}
-        public async Task<ActionResult<IEnumerable<Categories>>> GetCategoryName([FromQuery] string name)
+        [HttpGet("category/list/")] //{name}
+        public async Task<ActionResult<IEnumerable<Categories>>> GetCategoryName([FromQuery] string? name="")
         {
             List<Categories> categories = await _context.Categories.Where(x => x.CategoryName.Contains(name)).ToListAsync();
             if (categories == null)
@@ -85,7 +85,7 @@ namespace InventoryAPI.Controllers
         /*****************************/
 
         // Request by ID - Returns 1 location.
-        [HttpGet("getlocation/")] //{id}
+        [HttpGet("location/")] //{id}
         public async Task<ActionResult<Locations>> GetLocationId([FromQuery] int id)
         {
             var location = await _context.Locations.FindAsync(id);
@@ -96,11 +96,11 @@ namespace InventoryAPI.Controllers
             return location;
         }
 
-        // Request by parameters - Returns a list with locations whose attributes match with the request.
-        [HttpGet("getlocation/list/")] //{LocationName}
-        public async Task<ActionResult<IEnumerable<Locations>>> GetLocationName([FromQuery] string Name)
+        // Request by parameters - Returns a list with locations whose parameters match with the request.
+        [HttpGet("location/list/")] //{LocationName}
+        public async Task<ActionResult<IEnumerable<Locations>>> GetLocationName([FromQuery] string? name="")
         {
-            List<Locations> locations = await _context.Locations.Where(x => x.LocationName.Contains(Name)).ToListAsync();
+            List<Locations> locations = await _context.Locations.Where(x => x.LocationName.Contains(name)).ToListAsync();
             if (locations == null)
             {
                 return NotFound();
@@ -113,7 +113,7 @@ namespace InventoryAPI.Controllers
         /*****************************/
 
         // Request by Id - Returns 1 Object.
-        [HttpGet("getobject/")] //{id}
+        [HttpGet("object/")] //{id}
         public async Task<ActionResult<Objects>> GetObjectId([FromQuery] int id)
         {
             var obj = await _context.Objects.FindAsync(id);
@@ -125,8 +125,8 @@ namespace InventoryAPI.Controllers
         }
 
         // Request by parameters - Returns a list with objects whose attributes match with the request.
-        [HttpGet("getobject/list/")] //{category}
-        public async Task<ActionResult<IEnumerable<Objects>>> GetObjectCategory([FromQuery] int? Category, [FromQuery] string? Name)
+        [HttpGet("object/list/")] //{category}
+        public async Task<ActionResult<IEnumerable<Objects>>> GetObjectCategory([FromQuery] int? Category=null, [FromQuery] string? Name=null)
         {
             IQueryable<Objects> query = _context.Objects;
             if (Category != null)
@@ -151,7 +151,7 @@ namespace InventoryAPI.Controllers
         /*****************************/
 
         // Request by Id - Returns 1 item
-        [HttpGet("getitem/")] //{itemid}
+        [HttpGet("item/")] //{itemid}
         public async Task<ActionResult<Inventory>> GetItemId([FromQuery] int id)
         {
             var obj = await _context.Inventory.FindAsync(id);
@@ -163,7 +163,7 @@ namespace InventoryAPI.Controllers
         }
 
         // Request by parameters - Returns a list with inventory entries whose attributes match with the request.
-        [HttpGet("getitem/list/")] //{ObjectType?}/{Location?}/{Description?}/{User?}/{minAmount?}/{maxAmount?}
+        [HttpGet("item/list/")] //{ObjectType?}/{Location?}/{Description?}/{User?}/{minAmount?}/{maxAmount?}
         public async Task<ActionResult<IEnumerable<Inventory>>> GetItems([FromQuery]int? ObjectType = null, [FromQuery] int? Location = null, [FromQuery] string? Description = null, [FromQuery] int? User = null, [FromQuery] int? minAmount = null, [FromQuery] int? maxAmount = null)
         {
             IQueryable<Inventory> query = _context.Inventory;
