@@ -9,7 +9,7 @@ namespace InventoryAPI.Models
         public Objects ObjectType { get; set; }
         public Locations Location { get; set; }
         public string Description { get; set; }
-        public Users User { get; set; }
+        public Users? User { get; set; }
         public int Amount { get; set; }
     }
 }
