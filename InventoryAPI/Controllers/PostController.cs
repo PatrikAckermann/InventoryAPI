@@ -75,17 +75,5 @@ namespace InventoryAPI.Controllers
 
             return CreatedAtAction("PostItem", new {id = inventory.Id}, inventory);
         }
-
-        [HttpPost("testpost")]
-        public async Task<ActionResult<string>> TestPost([FromForm]int user)
-        {
-            Users User = _context.Users.Find(user);
-            Console.WriteLine(User);
-            if (User == null)
-            {
-                Console.WriteLine("ITS NULL");
-            }
-            return CreatedAtAction("TestPost", 1);
-        }
     }
 }
