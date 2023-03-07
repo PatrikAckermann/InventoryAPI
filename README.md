@@ -74,4 +74,13 @@ URL example: "https://bestinventorysystem.com/api/get/item?id=1" or "https://loc
 #### Update
 The update endpoint is currently not implemented.
 #### Delete
-The delete endpoint is currently not implemented.
+- /api/delete/user
+	- Deletes the user using the query-parameter specified id.
+- /api/delete/category
+	- Deletes the category using the query-parameter specified id.
+- /api/delete/location
+	- Deletes the location using the query-parameter specified id.
+- /api/delete/object
+	- Deletes the object using the query-parameter specified id.
+- /api/delete/item
+	- Deletes the item using the query-parameter specified id.
