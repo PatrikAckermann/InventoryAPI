@@ -2,6 +2,12 @@
 # InventoryAPI
 API made in C# to talk to an Entity Framework database.
 
+This API needs 3 nuget packages:
+
+ - Microsoft.EntityFrameworkCore.Design
+ - Microsoft.EntityFrameworkCore.SqlServer
+ - Microsoft.EntityFrameworkCore.Tools
+
 To use this program you have to create the database by using the following 2 commands in the Package-Manager-Console in Visual Studio:
 -   "Add-Migration name" - Replace name with a name for the migration
 -   "Update-Database" After this you should be able to run the API
@@ -71,8 +77,37 @@ URL example: "https://bestinventorysystem.com/api/get/item?id=1" or "https://loc
 		- amount (int): The amount key specifies the amount of this item in the given location.
 		- user (int id, optional): The user key specifies the user of the item. It is optional for items that are for general use instead of by a specific user.
 
-#### Update
-The update endpoint is currently not implemented.
+#### Put (Update)
+- /api/update/user
+	- Takes form data to update an user entity.
+	- Keys:
+		- id (int): The id key specifices which entity in the users table has to be edited.
+		- name (string): The name key edits the users name.
+- /api/update/category
+	- Takes form data to update an category entity.
+	- Keys:
+		- id (int): The id key specifices which entity in the categories table has to be edited.
+		- name (string): The name key edits the categorys name.
+- /api/update/location
+	- Takes form data to update a location entity.
+	- Keys:
+		- id (int): The id key specifices which entity in the locations table has to be edited.
+		- name (string): The name key edits the locations name.
+- /api/update/object
+	- Takes form data to update an object entity.
+	- Keys:
+		- id (int): The id key specifices which entity in the objects table has to be edited.
+		- name (string, optional): The name key edits the objects name.
+		- category (int id, optional): The category key edits the objects category.
+- /api/update/item
+	- Takes form data to update an item entity.
+	- Keys:
+		- id (int): The id key specifices which entity in the inventory table has to be edited.
+		- description (string, optional): The description key edits the items description.
+		- objectType (int id, optional): The objectType key edits the items object type.
+		- location (int id, optional): The location key edits the items location.
+		- user (int id, optional): The user key edits the items user. Because the user column is optional it can also be set to null if the item doesn't have a specific user.
+		- amount(int, optional): The amount key edits the items amount.
 #### Delete
 - /api/delete/user
 	- Deletes the user using the query-parameter specified id.
