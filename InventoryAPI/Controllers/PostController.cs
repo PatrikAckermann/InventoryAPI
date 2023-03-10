@@ -19,8 +19,10 @@ namespace InventoryAPI.Controllers
         }
 
         [HttpPost("user")]
-        public async Task<ActionResult<Users>> PostUser(Users user)
+        public async Task<ActionResult<Users>> PostUser([FromForm]string name)
         {
+            Users user = new Users();
+            user.Name = name;
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
@@ -28,8 +30,10 @@ namespace InventoryAPI.Controllers
         }
 
         [HttpPost("category")]
-        public async Task<ActionResult<Categories>> PostCategory(Categories category)
+        public async Task<ActionResult<Categories>> PostCategory([FromForm]string name)
         {
+            Categories category = new Categories();
+            category.CategoryName = name;
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
 
@@ -37,8 +41,10 @@ namespace InventoryAPI.Controllers
         }
 
         [HttpPost("location")]
-        public async Task<ActionResult<Locations>> PostLocation(Locations location)
+        public async Task<ActionResult<Locations>> PostLocation([FromForm]string name)
         {
+            Locations location = new Locations();
+            location.LocationName = name;
             _context.Locations.Add(location);
             await _context.SaveChangesAsync();
 
