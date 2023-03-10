@@ -25,7 +25,7 @@ namespace InventoryAPI.Controllers
             if (user != null)
             {
                 user.Name = name;
-                _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
                 return NoContent();
             }
             return NotFound();
@@ -38,7 +38,7 @@ namespace InventoryAPI.Controllers
             if (category != null)
             {
                 category.CategoryName = name;
-                _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
                 return NoContent();
             }
             return NotFound();
@@ -51,7 +51,7 @@ namespace InventoryAPI.Controllers
             if (location != null)
             {
                 location.LocationName = name;
-                _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
                 return NoContent();
             }
             return NotFound();
@@ -64,18 +64,15 @@ namespace InventoryAPI.Controllers
             if (obj != null)
             {
                 Categories categoryEntity = _context.Categories.Find(category);
-                Debug.WriteLine($"Found Category: {categoryEntity.CategoryName}");
                 if (categoryEntity != null)
                 {
                     obj.Category = categoryEntity;
-                    Debug.WriteLine($"Changed obj category to: {obj.Category.CategoryName}");
                 }
                 if (name != null)
                 {
                     obj.ObjectName = name;
                 }
-                _context.SaveChangesAsync();
-                Debug.WriteLine("Saved changes");
+                await _context.SaveChangesAsync();
                 return NoContent();
             }
             return NotFound();
@@ -110,7 +107,7 @@ namespace InventoryAPI.Controllers
                 {
                     item.Amount = amount.Value;
                 }
-                _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
                 return NoContent();
             }
             return NotFound();
