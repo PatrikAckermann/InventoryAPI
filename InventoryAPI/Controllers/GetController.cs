@@ -156,7 +156,7 @@ namespace InventoryAPI.Controllers
         [HttpGet("item/")] //{itemid}
         public async Task<ActionResult<Inventory>> GetItemId([FromQuery] int id)
         {
-            var obj = await _context.Inventory.Include(x => x.ObjectType).Include(x => x.Location).Include(x => x.User).Include(x => x.ObjectType.Category).FirstOrDefaultAsync(x => x.Id == id);
+            var obj = await _context.Inventory.Include(x => x.Location).Include(x => x.User).Include(x => x.ObjectType.Category).FirstOrDefaultAsync(x => x.Id == id);
             if (obj == null)
             {
                 return NotFound();
@@ -195,7 +195,7 @@ namespace InventoryAPI.Controllers
                 query = query.Where(x => x.Amount <= maxAmount);
             }
 
-            query = query.Include(x => x.ObjectType).Include(x => x.Location).Include(x => x.User).Include(x => x.ObjectType.Category);
+            query = query.Include(x => x.Location).Include(x => x.User).Include(x => x.ObjectType.Category);
             List<Inventory> Items = await query.ToListAsync();
 
             if (Items == null)

@@ -2,8 +2,10 @@
 using InventoryAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using System.Drawing.Printing;
+using System.Net;
 
 namespace InventoryAPI.Controllers
 {
@@ -59,7 +61,7 @@ namespace InventoryAPI.Controllers
             obj.Category = _context.Categories.Find(category);
             if(obj.Category == null || obj.ObjectName == null)
             {
-                return NotFound();
+                return BadRequest();
             }
             _context.Objects.Add(obj);
             await _context.SaveChangesAsync();
@@ -70,6 +72,11 @@ namespace InventoryAPI.Controllers
         [HttpPost("item")]
         public async Task<ActionResult<Inventory>> PostItem([FromForm]int objectType, [FromForm]int location, [FromForm]string description, [FromForm]int amount, [FromForm] int? user = null)
         {
+            System.Diagnostics.Debug.WriteLine(objectType);
+            if (objectType == 0 || location == 0 || amount == 0)
+            {
+                return BadRequest();
+            }
             Inventory inventory = new Inventory();
             inventory.ObjectType = _context.Objects.Find(objectType);
             inventory.Location = _context.Locations.Find(location);
