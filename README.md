@@ -52,15 +52,15 @@ URL example: "https://bestinventorysystem.com/api/get/item?id=1" or "https://loc
 
 #### Post
 - /api/post/user
-	- Takes raw json data to create a new user.
+	- Takes form data to create a new user.
 	- Keys:
 		- name (string): The name key gives the user a name.
 - /api/post/category
-	- Takes raw json data to create a new category.
+	- Takes form data to create a new category.
 	- Keys:
 		- categoryName (string): The categoryName key gives the category a name.
 - /api/post/location
-	- Takes raw json data to create a new location.
+	- Takes form data to create a new location.
 	- Keys:
 		- locationName (string): The locationName key gives the location a name.
 - /api/post/object
